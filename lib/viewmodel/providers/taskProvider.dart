@@ -5,14 +5,34 @@ final taskProvider =
     StateNotifierProvider<TaskNotifier, List<Task>>((ref) => TaskNotifier());
 
 class TaskNotifier extends StateNotifier<List<Task>> {
-  TaskNotifier() : super([
-    Task(title: "Design sign up flow", description: "By the time a prospect arrives at your signup page, in most cases, they've already ...", date: DateTime.now()),
-    Task(title: "Design use case page", description: "", date: DateTime.now().subtract(Duration(days: 1))),
-    Task(title: "Test Wireframe", description: "", date: DateTime.now().subtract(Duration(days: 1))),
-    Task(title: "Create new task UI flow", description: "", date: DateTime(2025, 10, 8)),
-    Task(title: "Collect project assets", description: "", date: DateTime(2025, 10, 8)),
-  ]);
+  TaskNotifier()
+      : super([
+          Task(
+              title: "Design sign up flow",
+              description:
+                  "By the time a prospect arrives at your signup page, in most cases, they've already ...",
+              date: DateTime.now()),
+          Task(
+              title: "Design use case page",
+              description: "",
+              date: DateTime.now().subtract(Duration(days: 1))),
+          Task(
+              title: "Test Wireframe",
+              description: "",
+              date: DateTime.now().subtract(Duration(days: 1))),
+          Task(
+              title: "Create new task UI flow",
+              description: "",
+              date: DateTime(2025, 10, 8)),
+          Task(
+              title: "Collect project assets",
+              description: "",
+              date: DateTime(2025, 10, 8)),
+        ]);
 
+  void addTask(Task task) {
+    state = [...state, task];
+  }
 
   void toggleTaskCompletion(int index) {
     state = [
@@ -27,4 +47,14 @@ class TaskNotifier extends StateNotifier<List<Task>> {
           state[i]
     ];
   }
+
+  void removeTask(int index) {
+    state = state.asMap().entries.where((entry) => entry.key != index).map((entry) => entry.value).toList();
+  }
+
+
+  void clearCompletedTasks() {
+    state = state.where((task) => !task.isCompleted).toList();
+  }
 }
+
